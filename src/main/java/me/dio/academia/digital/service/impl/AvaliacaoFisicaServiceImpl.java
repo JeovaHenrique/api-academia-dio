@@ -2,6 +2,7 @@ package me.dio.academia.digital.service.impl;
 
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
+import me.dio.academia.digital.entity.form.AlunoUpdateForm;
 import me.dio.academia.digital.entity.form.AvaliacaoFisicaForm;
 import me.dio.academia.digital.entity.form.AvaliacaoFisicaUpdateForm;
 import me.dio.academia.digital.repository.AlunoRepository;
@@ -33,7 +34,8 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
 
     @Override
     public AvaliacaoFisica get(Long id) {
-        return null;
+
+        return avaliacaoFisicaRepository.getById(id);
     }
 
     @Override
@@ -43,11 +45,26 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
 
     @Override
     public AvaliacaoFisica update(Long id, AvaliacaoFisicaUpdateForm formUpdate) {
-        return null;
+
+        AvaliacaoFisicaUpdateForm avaliacaoFisicaUpdateForm = new AvaliacaoFisicaUpdateForm();
+
+        avaliacaoFisicaUpdateForm.setAltura(formUpdate.getAltura());
+        avaliacaoFisicaUpdateForm.setPeso(formUpdate.getPeso());
+
+        AvaliacaoFisica avaliacaoFisica =  avaliacaoFisicaRepository.findById(id).get();
+
+        if(avaliacaoFisica.getAltura() != avaliacaoFisicaUpdateForm.getAltura()) {
+            avaliacaoFisica.setAltura(avaliacaoFisicaUpdateForm.getAltura());
+        }
+
+        if (avaliacaoFisica.getPeso() != avaliacaoFisicaUpdateForm.getPeso()) {
+            avaliacaoFisica.setPeso(avaliacaoFisicaUpdateForm.getPeso());
+        }
+        return avaliacaoFisicaRepository.save(avaliacaoFisica);
     }
 
     @Override
     public void delete(Long id) {
-
+        avaliacaoFisicaRepository.deleteById(id);
     }
 }
